@@ -26,7 +26,6 @@ const bcryptCompare = (password, encryptedPassword) => __awaiter(void 0, void 0,
 });
 exports.bcryptCompare = bcryptCompare;
 const hashPassword = (password) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(password);
     return yield bcrypt_1.default.hash(password, 10);
 });
 exports.hashPassword = hashPassword;

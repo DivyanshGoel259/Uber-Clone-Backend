@@ -16,8 +16,8 @@ app.use("/api/v1/auth", router_1.default);
 app.use((err, req, res) => {
     res.status(400).json({
         error: {
-            message: err.message || "something went wrong"
-        }
+            message: err.message || "something went wrong",
+        },
     });
 });
 app.get("/", (req, res) => {

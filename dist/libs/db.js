@@ -10,7 +10,7 @@ const env_1 = require("./env");
 const pgp = (0, pg_promise_1.default)();
 const dbconfig = {
     connectionString: env_1.DATABASE_URL,
-    ssl: env_1.NODE_ENV === "production" ? { rejectUnauthorized: false } : false
+    ssl: env_1.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
 };
 const db = pgp(dbconfig);
 exports.default = db;

@@ -9,3 +9,11 @@ export const registerBodyValidator = [
     .isLength({ min: 6 })
     .withMessage("password must be atleast 6 character long"),
 ];
+
+
+export const loginBodyValidator = [
+    body("email").isEmail().withMessage("Invalid Email"),
+    body("password")
+      .isLength({ min: 6 })
+      .withMessage("password must be atleast 6 character long"),
+  ];

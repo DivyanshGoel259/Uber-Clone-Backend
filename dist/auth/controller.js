@@ -32,7 +32,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerUser = void 0;
+exports.loginUser = exports.registerUser = void 0;
 const express_validator_1 = require("express-validator");
 const service = __importStar(require("./service"));
 const registerUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -49,3 +49,17 @@ const registerUser = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.registerUser = registerUser;
+const loginUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const errors = (0, express_validator_1.validationResult)(req);
+        if (!errors.isEmpty()) {
+            throw new Error(JSON.stringify(errors.array()));
+        }
+        const data = yield service.loginUser(req.body);
+        res.json({ data });
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.loginUser = loginUser;

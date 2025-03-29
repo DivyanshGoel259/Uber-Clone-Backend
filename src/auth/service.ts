@@ -1,5 +1,5 @@
 import db from "../libs/db";
-import { genAuthToken, hashPassword } from "../libs/utils";
+import { bcryptCompare, genAuthToken, hashPassword } from "../libs/utils";
 import { UserType } from "../types";
 
 export const createUser = async (
@@ -30,3 +30,30 @@ export const createUser = async (
     throw err;
   }
 };
+
+
+export const loginUser = async (payload:Pick<UserType,'email'|'password'>)=>{
+    try {
+
+        if(!payload.email||!payload.password){
+            throw new Error("All feilds are required")
+        }
+
+        const user = await db.oneOrNone(`SELECT * FROM users WHERE email=$(email)`,{email:payload.email})
+        if(!user){
+            throw new Error("Invalid email or password")
+        }
+
+        const isPasswordMatched = await bcryptCompare(payload.password,user?.password)
+
+        if(!isPasswordMatched){
+            throw new Error('Invalid email or password')
+        } 
+            
+        const token = await genAuthToken(user?.id)
+        return {token,user}
+
+    } catch (err){
+        throw err
+    }
+}

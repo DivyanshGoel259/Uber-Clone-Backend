@@ -12,13 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUser = void 0;
+exports.loginUser = exports.createUser = void 0;
 const db_1 = __importDefault(require("../libs/db"));
 const utils_1 = require("../libs/utils");
 const createUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!payload.email || !payload.firstName || !payload.password) {
-            throw new Error('All feilds are required');
+            throw new Error("All feilds are required");
         }
         const checkUser = yield db_1.default.oneOrNone(`SELECT id FROM users WHERE email=$(email)`, { email: payload.email });
         if (checkUser === null || checkUser === void 0 ? void 0 : checkUser.id) {
@@ -34,3 +34,24 @@ const createUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.createUser = createUser;
+const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        if (!payload.email || !payload.password) {
+            throw new Error("All feilds are required");
+        }
+        const user = yield db_1.default.oneOrNone(`SELECT * FROM users WHERE email=$(email)`, { email: payload.email });
+        if (!user) {
+            throw new Error("Invalid email or password");
+        }
+        const isPasswordMatched = yield (0, utils_1.bcryptCompare)(payload.password, user === null || user === void 0 ? void 0 : user.password);
+        if (!isPasswordMatched) {
+            throw new Error('Invalid email or password');
+        }
+        const token = yield (0, utils_1.genAuthToken)(user === null || user === void 0 ? void 0 : user.id);
+        return { token, user };
+    }
+    catch (err) {
+        throw err;
+    }
+});
+exports.loginUser = loginUser;

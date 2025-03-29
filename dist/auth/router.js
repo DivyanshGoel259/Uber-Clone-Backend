@@ -27,5 +27,6 @@ const express_1 = require("express");
 const controller = __importStar(require("./controller"));
 const constants_1 = require("../libs/constants");
 const authRouter = (0, express_1.Router)();
-authRouter.post('/register', constants_1.registerBodyValidator, controller.registerUser);
+authRouter.post("/register", constants_1.registerBodyValidator, controller.registerUser);
+authRouter.post('/login', constants_1.loginBodyValidator, controller.loginUser);
 exports.default = authRouter;

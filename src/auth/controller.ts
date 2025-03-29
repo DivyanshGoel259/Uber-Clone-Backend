@@ -21,3 +21,21 @@ export const registerUser = async (
     next(err);
   }
 };
+
+
+export const loginUser = async (req:Request,res:Response<AuthResponse>,next:NextFunction)=>{
+    try {
+
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            throw new Error(JSON.stringify(errors.array()))
+        }
+
+        const data = await service.loginUser(req.body)
+
+        res.json({data})
+
+    } catch (err){
+        next(err)
+    }
+}
