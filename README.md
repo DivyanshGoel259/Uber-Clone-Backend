@@ -136,3 +136,55 @@ Example error response body:
   }
 }
 ```
+
+### 3. **Get User Profile**
+
+#### **GET** `/api/v1/auth/user/profile`
+
+This endpoint is used to retrieve the profile of the authenticated user.
+
+#### **Headers**
+
+| Header          | Type   | Description                      |
+| --------------- | ------ | -------------------------------- |
+| `Authorization` | string | Bearer token for authentication. |
+
+#### **Response**
+
+The response will contain the following fields:
+
+| Field       | Type   | Description                                   |
+| ----------- | ------ | --------------------------------------------- |
+| `email`     | string | The email address of the user.                |
+| `firstName` | string | The first name of the user.                   |
+| `lastName`  | string | The last name of the user.                    |
+| `id`        | string | The unique ID of the user.                    |
+| `createdAt` | string | The timestamp when the user was created.      |
+| `updatedAt` | string | The timestamp when the user was last updated. |
+
+Example response body:
+
+```json
+{
+  "data": {
+    "email": "example@example.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "id": "123e4567-e89b-12d3-a456-426614174000",
+    "createdAt": "2023-10-01T12:00:00Z",
+    "updatedAt": "2023-10-01T12:00:00Z"
+  }
+}
+```
+
+In case of an error, the response will contain the following:
+
+Example error response body:
+
+```json
+{
+  "error": {
+    "message": "You are unauthorized"
+  }
+}
+```

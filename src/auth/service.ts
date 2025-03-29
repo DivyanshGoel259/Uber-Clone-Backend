@@ -31,29 +31,50 @@ export const createUser = async (
   }
 };
 
-
-export const loginUser = async (payload:Pick<UserType,'email'|'password'>)=>{
-    try {
-
-        if(!payload.email||!payload.password){
-            throw new Error("All feilds are required")
-        }
-
-        const user = await db.oneOrNone(`SELECT * FROM users WHERE email=$(email)`,{email:payload.email})
-        if(!user){
-            throw new Error("Invalid email or password")
-        }
-
-        const isPasswordMatched = await bcryptCompare(payload.password,user?.password)
-
-        if(!isPasswordMatched){
-            throw new Error('Invalid email or password')
-        } 
-            
-        const token = await genAuthToken(user?.id)
-        return {token,user}
-
-    } catch (err){
-        throw err
+export const loginUser = async (
+  payload: Pick<UserType, "email" | "password">
+) => {
+  try {
+    if (!payload.email || !payload.password) {
+      throw new Error("All feilds are required");
     }
-}
+
+    const user = await db.oneOrNone(
+      `SELECT * FROM users WHERE email=$(email)`,
+      { email: payload.email }
+    );
+    if (!user) {
+      throw new Error("Invalid email or password");
+    }
+
+    const isPasswordMatched = await bcryptCompare(
+      payload.password,
+      user?.password
+    );
+
+    if (!isPasswordMatched) {
+      throw new Error("Invalid email or password");
+    }
+
+    const token = await genAuthToken(user?.id);
+    return { token, user };
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getUserProfile = async (userId: string) => {
+  try {
+    const user = await db.oneOrNone(
+      `SELECT email,firstName,lastName,id,createdAt,updatedAt FROM users where id=$(userId)`,
+      { userId }
+    );
+    if (!user) {
+      throw new Error("Something went wrong");
+    }
+
+    return user;
+  } catch (err) {
+    throw err;
+  }
+};

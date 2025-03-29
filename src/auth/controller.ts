@@ -39,3 +39,16 @@ export const loginUser = async (req:Request,res:Response<AuthResponse>,next:Next
         next(err)
     }
 }
+
+
+export const getUserProfile = async ( req:Request,res:Response<AuthResponse>,next:NextFunction)=>{
+    try {
+
+        const userId = (req as any).userId
+        const data = await service.getUserProfile(userId)
+        res.json({data})
+
+    } catch (err){
+        next(err)
+    }
+}
