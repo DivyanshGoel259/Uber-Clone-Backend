@@ -1,19 +1,31 @@
-import express  , { Request,Response} from "express";
-import cors from 'cors'
+import express, { NextFunction, Request, Response } from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import authRouter from "./auth/router";
 
+dotenv.config();
+const app = express();
 
-const app = express()
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 
-app.use(cors())
+app.use(cors());
 
-app.get("/",(req:Request,res:Response)=>{
-    res.json("Hello world")
-})
+app.use(express.json());
 
-app.listen(PORT,()=>{
-    console.log("Server running on port"+PORT)
-})
+app.use("/api/v1/auth", authRouter);
 
+app.use((err: Error, req: Request, res: Response) => {
+  res.status(400).json({
+    error: {
+      message: err.message || "something went wrong",
+    },
+  });
+});
 
+app.get("/", (req: Request, res: Response) => {
+  res.json("Hello world");
+});
 
+app.listen(PORT, () => {
+  console.log("Server running on port" + PORT);
+});
