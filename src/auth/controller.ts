@@ -46,6 +46,20 @@ export const getUserProfile = async ( req:Request,res:Response<AuthResponse>,nex
 
         const userId = (req as any).userId
         const data = await service.getUserProfile(userId)
+        res.cookie('token',data)
+        res.json({data})
+
+    } catch (err){
+        next(err)
+    }
+}
+
+export const logoutUser = async (req:Request,res:Response<AuthResponse>,next:NextFunction)=>{
+    try {
+
+        res.clearCookie('token')
+        const token = req.cookies?.token || req.headers.authorization?.split(' ')[1]
+        const data = await service.logoutUser(token)
         res.json({data})
 
     } catch (err){

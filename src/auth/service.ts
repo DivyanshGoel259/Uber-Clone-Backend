@@ -1,4 +1,5 @@
 import db from "../libs/db";
+import { redisClient } from "../libs/redis";
 import { bcryptCompare, genAuthToken, hashPassword } from "../libs/utils";
 import { UserType } from "../types";
 
@@ -78,3 +79,24 @@ export const getUserProfile = async (userId: string) => {
     throw err;
   }
 };
+
+
+export const logoutUser = async (token:string)=>{
+    try {
+
+        const client = await redisClient()
+        if(!client){
+            throw new Error('Internal server error')
+        }
+        const expiredToken = await client.del(`jwt-${token}`)
+
+        if(!expiredToken){
+            throw new Error(`You are not unauthorized`)
+        }
+
+        return 'Logged out successfully'
+
+    } catch (err){
+        throw err
+    }
+}

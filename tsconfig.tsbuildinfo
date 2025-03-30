@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/types.ts","./src/auth/controller.ts","./src/auth/router.ts","./src/auth/service.ts","./src/libs/constants.ts","./src/libs/db.ts","./src/libs/env.ts","./src/libs/utils.ts","./src/middlewares/authmiddleware.ts"],"version":"5.6.3"}
+{"root":["./src/index.ts","./src/types.ts","./src/auth/controller.ts","./src/auth/router.ts","./src/auth/service.ts","./src/libs/constants.ts","./src/libs/db.ts","./src/libs/env.ts","./src/libs/redis.ts","./src/libs/utils.ts","./src/middlewares/authmiddleware.ts"],"version":"5.6.3"}

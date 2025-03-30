@@ -188,3 +188,43 @@ Example error response body:
   }
 }
 ```
+
+### 4. **Logout User**
+
+#### **GET** `/api/v1/auth/logout`
+
+This endpoint is used to log out the authenticated user by invalidating their token.
+
+#### **Headers**
+
+| Header          | Type   | Description                      |
+| --------------- | ------ | -------------------------------- |
+| `Authorization` | string | Bearer token for authentication. |
+
+#### **Response**
+
+The response will contain the following fields:
+
+| Field  | Type   | Description        |
+| ------ | ------ | ------------------ |
+| `data` | string | A success message. |
+
+Example response body:
+
+```json
+{
+  "data": "Logged out successfully"
+}
+```
+
+In case of an error, the response will contain the following:
+
+Example error response body:
+
+```json
+{
+  "error": {
+    "message": "You are not unauthorized"
+  }
+}
+```
