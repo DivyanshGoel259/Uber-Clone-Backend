@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/captain",captainRouter)
+app.use("/api/v1/captain", captainRouter);
 
 app.use((err: Error, req: Request, res: Response) => {
   res.status(400).json({

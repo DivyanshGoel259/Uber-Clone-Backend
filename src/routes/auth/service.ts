@@ -24,9 +24,8 @@ export const createUser = async (
       { ...payload, hashedPassword }
     );
 
-
-    if(!user?.id){
-      throw new Error("Internal Server Error")
+    if (!user?.id) {
+      throw new Error("Internal Server Error");
     }
 
     const token = await genAuthToken(user.id);

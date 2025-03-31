@@ -309,3 +309,72 @@ Example error response body:
   }
 }
 ```
+
+### 6. **Login Captain**
+
+#### **POST** `/api/v1/captain/login`
+
+This endpoint is used to authenticate an existing captain.
+
+#### **Request Body**
+
+The following fields are required in the request body:
+
+| Field      | Type   | Description                                                       |
+| ---------- | ------ | ----------------------------------------------------------------- |
+| `email`    | string | The email address of the captain. Must be a valid email.          |
+| `password` | string | The password for the captain. Must be at least 6 characters long. |
+
+Example request body:
+
+```json
+{
+  "email": "captain@example.com",
+  "password": "securepassword"
+}
+```
+
+#### **Response**
+
+The response will contain the following fields:
+
+| Field     | Type   | Description                                    |
+| --------- | ------ | ---------------------------------------------- |
+| `token`   | string | The authentication token for the captain.      |
+| `captain` | object | The captain object containing captain details. |
+
+Example response body:
+
+```json
+{
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "captain": {
+      "id": "123e4567-e89b-12d3-a456-426614174001",
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "email": "captain@example.com",
+      "status": "inactive",
+      "vehicle": {
+        "id": "123e4567-e89b-12d3-a456-426614174002",
+        "color": "Blue",
+        "plate": "XYZ123",
+        "capacity": 4,
+        "type": "car"
+      }
+    }
+  }
+}
+```
+
+In case of an error, the response will contain the following:
+
+Example error response body:
+
+```json
+{
+  "error": {
+    "message": "Invalid email or password"
+  }
+}
+```

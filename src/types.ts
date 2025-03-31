@@ -11,11 +11,10 @@ export interface UserType {
   password: string;
   firstName: string;
   lastName: string;
-  socketId:string;
+  socketId: string;
   createdAt: Date;
   updatedAt: Date;
 }
-
 
 export type LocationType = {
   id: string;
@@ -46,16 +45,13 @@ export type CaptainType = {
   vehicle: TypeVehicle;
 };
 
-
-
 export enum CaptainStatus {
-  ACTIVE='active',
-  INACTIVE='inactive'
+  ACTIVE = "active",
+  INACTIVE = "inactive",
 }
 
 export enum VehicleType {
-  MOTORCYCLE='motorcycle',
-  CAR='car',
-  AUTO='auto'
+  MOTORCYCLE = "motorcycle",
+  CAR = "car",
+  AUTO = "auto",
 }
-
