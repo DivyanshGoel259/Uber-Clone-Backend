@@ -1,7 +1,7 @@
-import db from "../libs/db";
-import { redisClient } from "../libs/redis";
-import { bcryptCompare, genAuthToken, hashPassword } from "../libs/utils";
-import { UserType } from "../types";
+import db from "../../libs/db";
+import { redisClient } from "../../libs/redis";
+import { bcryptCompare, genAuthToken, hashPassword } from "../../libs/utils";
+import { UserType } from "../../types";
 
 export const createUser = async (
   payload: Pick<UserType, "firstName" | "email" | "lastName" | "password">
@@ -23,6 +23,11 @@ export const createUser = async (
       `INSERT INTO users(email,password,firstName,lastName) VALUES($(email),$(hashedPassword),$(firstName),$(lastName)) RETURNING *`,
       { ...payload, hashedPassword }
     );
+
+
+    if(!user?.id){
+      throw new Error("Internal Server Error")
+    }
 
     const token = await genAuthToken(user.id);
 
@@ -80,23 +85,20 @@ export const getUserProfile = async (userId: string) => {
   }
 };
 
-
-export const logoutUser = async (token:string)=>{
-    try {
-
-        const client = await redisClient()
-        if(!client){
-            throw new Error('Internal server error')
-        }
-        const expiredToken = await client.del(`jwt-${token}`)
-
-        if(!expiredToken){
-            throw new Error(`You are not unauthorized`)
-        }
-
-        return 'Logged out successfully'
-
-    } catch (err){
-        throw err
+export const logoutUser = async (token: string) => {
+  try {
+    const client = await redisClient();
+    if (!client) {
+      throw new Error("Internal server error");
     }
-}
+    const expiredToken = await client.del(`jwt-${token}`);
+
+    if (!expiredToken) {
+      throw new Error(`You are not unauthorized`);
+    }
+
+    return "Logged out successfully";
+  } catch (err) {
+    throw err;
+  }
+};

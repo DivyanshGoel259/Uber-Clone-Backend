@@ -6,6 +6,7 @@ CREATE TABLE users (
     lastName VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
+    socketId VARCHAR(255),
     createdAt TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
     updatedAt TIMESTAMP WITHOUT TIME ZONE DEFAULT now()
 );
@@ -13,4 +14,4 @@ CREATE TABLE users (
 
 -- migrate:down
 
-drop table if exists user
+drop table if exists users

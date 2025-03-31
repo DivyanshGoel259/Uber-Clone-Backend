@@ -228,3 +228,84 @@ Example error response body:
   }
 }
 ```
+
+### 5. **Register Captain**
+
+#### **POST** `/api/v1/captain/register`
+
+This endpoint is used to register a new captain.
+
+#### **Request Body**
+
+The following fields are required in the request body:
+
+| Field       | Type   | Description                                                                     |
+| ----------- | ------ | ------------------------------------------------------------------------------- |
+| `email`     | string | The email address of the captain. Must be a valid email.                        |
+| `firstName` | string | The first name of the captain. Must be at least 3 characters long.              |
+| `lastName`  | string | The last name of the captain.                                                   |
+| `password`  | string | The password for the captain. Must be at least 6 characters long.               |
+| `color`     | string | The color of the captain's vehicle. Must be at least 3 characters long.         |
+| `plate`     | string | The license plate of the captain's vehicle. Must be at least 3 characters long. |
+| `capacity`  | number | The seating capacity of the captain's vehicle. Must be at least 1.              |
+| `type`      | string | The type of the vehicle. Must be one of `motorcycle`, `auto`, or `car`.         |
+
+Example request body:
+
+```json
+{
+  "email": "captain@example.com",
+  "firstName": "Jane",
+  "lastName": "Doe",
+  "password": "securepassword",
+  "color": "Blue",
+  "plate": "XYZ123",
+  "capacity": 4,
+  "type": "car"
+}
+```
+
+#### **Response**
+
+The response will contain the following fields:
+
+| Field     | Type   | Description                                    |
+| --------- | ------ | ---------------------------------------------- |
+| `token`   | string | The authentication token for the captain.      |
+| `captain` | object | The captain object containing captain details. |
+
+Example response body:
+
+```json
+{
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "captain": {
+      "id": "123e4567-e89b-12d3-a456-426614174001",
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "email": "captain@example.com",
+      "status": "inactive",
+      "vehicle": {
+        "id": "123e4567-e89b-12d3-a456-426614174002",
+        "color": "Blue",
+        "plate": "XYZ123",
+        "capacity": 4,
+        "type": "car"
+      }
+    }
+  }
+}
+```
+
+In case of an error, the response will contain the following:
+
+Example error response body:
+
+```json
+{
+  "error": {
+    "message": "Email Already Exists"
+  }
+}
+```
