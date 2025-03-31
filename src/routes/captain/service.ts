@@ -63,7 +63,7 @@ export const loginCaptain = async (
     }
 
     let captain = await db.oneOrNone(
-      `SELECT captain.*,vehicle.* FROM captain INNER JOIN vehicle ON captain.vehicleId=vehicle.id WHERE captain.email=$(email)`,
+      `SELECT captain.*, to_json(vehicle) as vehicle FROM captain INNER JOIN vehicle ON captain.vehicleId=vehicle.id WHERE captain.email=$(email)`,
       { email: payload.email }
     );
     if (!captain) {
@@ -78,27 +78,6 @@ export const loginCaptain = async (
     if (!isPasswordMatched) {
       throw new Error("Invalid email or password");
     }
-
-    captain = {
-      id: captain.id,
-      firstName: captain.firstname,
-      lastName: captain.lastname,
-      email: captain.email,
-      password: captain.password,
-      socketId: captain.socketid,
-      vehicleId: captain.vehicleid,
-      locationId: captain.locationid,
-      status: captain.status,
-      createdAt: captain.createdat,
-      updatedAt: captain.updatedat,
-      vehicle: {
-        id: captain.vehicleid,
-        type: captain.type,
-        plate: captain.plate,
-        color: captain.color,
-        capacity: captain.capacity,
-      },
-    };
 
     const token = await genAuthToken(captain?.id);
     return { token, captain };
