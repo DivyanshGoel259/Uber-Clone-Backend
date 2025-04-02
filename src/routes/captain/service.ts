@@ -1,4 +1,5 @@
 import db from "../../libs/db";
+import { redisClient } from "../../libs/redis";
 import { bcryptCompare, genAuthToken, hashPassword } from "../../libs/utils";
 import { CaptainType, LocationType, TypeVehicle } from "../../types";
 
@@ -47,7 +48,7 @@ export const registerCaptain = async (payload: RegisterCaptainArgs) => {
     }
     captain = { ...captain, vehicle };
     const token = await genAuthToken(captain.id);
-
+    delete captain.password;
     return { token, captain };
   } catch (err) {
     throw err;
@@ -80,7 +81,41 @@ export const loginCaptain = async (
     }
 
     const token = await genAuthToken(captain?.id);
+    delete captain.password;
     return { token, captain };
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getCaptainProfile = async (captainId: string) => {
+  try {
+    const captain = await db.oneOrNone(
+      `SELECT captain.*,to_json(vehicle) AS vehicle FROM captain INNER JOIN vehicle ON captain.vehicleId = vehicle.id WHERE captain.id = $(captainId)`,
+      { captainId }
+    );
+    if (!captain) {
+      throw new Error("Internal Server Error");
+    }
+    delete captain.password;
+    return captain;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const logoutCaptain = async (token: string) => {
+  try {
+    const client = await redisClient();
+
+    if (!client) {
+      throw new Error("Internal Server Error");
+    }
+    const expiredToken = await client.del(`jwt-${token}`);
+    if (!expiredToken) {
+      throw new Error(`You are not unauthorized`);
+    }
+    return "Logged out successfully";
   } catch (err) {
     throw err;
   }

@@ -30,7 +30,6 @@ export const authMiddleware = async (
     (req as any).userId = decoded._id;
     next();
   } catch (err: any) {
-    console.log(err.message);
     res.status(403).json({ error: { message: err.message } });
   }
 };

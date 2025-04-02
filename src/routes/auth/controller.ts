@@ -15,7 +15,7 @@ export const registerUser = async (
     }
 
     const data = await service.createUser(req.body);
-
+    res.cookie("token", data.token);
     res.json({ data });
   } catch (err) {
     next(err);
@@ -34,7 +34,7 @@ export const loginUser = async (
     }
 
     const data = await service.loginUser(req.body);
-
+    res.cookie("token", data.token);
     res.json({ data });
   } catch (err) {
     next(err);
@@ -49,7 +49,6 @@ export const getUserProfile = async (
   try {
     const userId = (req as any).userId;
     const data = await service.getUserProfile(userId);
-    res.cookie("token", data);
     res.json({ data });
   } catch (err) {
     next(err);

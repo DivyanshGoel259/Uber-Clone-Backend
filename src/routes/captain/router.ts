@@ -14,5 +14,6 @@ captainRouter.post(
   controller.registerCaptain
 );
 captainRouter.post("/login", loginBodyValidator, controller.loginCaptain);
-
+captainRouter.get("/profile", authMiddleware, controller.getCaptainProfile);
+captainRouter.get("/logout", authMiddleware, controller.logoutCaptain);
 export default captainRouter;

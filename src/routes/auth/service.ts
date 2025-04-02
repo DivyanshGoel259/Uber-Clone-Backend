@@ -30,6 +30,8 @@ export const createUser = async (
 
     const token = await genAuthToken(user.id);
 
+    delete user.password;
+
     return { token, user };
   } catch (err) {
     throw err;
@@ -62,6 +64,7 @@ export const loginUser = async (
     }
 
     const token = await genAuthToken(user?.id);
+    delete user.password;
     return { token, user };
   } catch (err) {
     throw err;

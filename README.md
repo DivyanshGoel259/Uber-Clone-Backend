@@ -378,3 +378,103 @@ Example error response body:
   }
 }
 ```
+
+### 7. **Get Captain Profile**
+
+#### **GET** `/api/v1/captain/profile`
+
+This endpoint is used to retrieve the profile of the authenticated captain.
+
+#### **Headers**
+
+| Header          | Type   | Description                      |
+| --------------- | ------ | -------------------------------- |
+| `Authorization` | string | Bearer token for authentication. |
+
+#### **Response**
+
+The response will contain the following fields:
+
+| Field       | Type   | Description                                      |
+| ----------- | ------ | ------------------------------------------------ |
+| `id`        | string | The unique ID of the captain.                    |
+| `firstName` | string | The first name of the captain.                   |
+| `lastName`  | string | The last name of the captain.                    |
+| `email`     | string | The email address of the captain.                |
+| `status`    | string | The status of the captain (`active`/`inactive`). |
+| `vehicle`   | object | The vehicle object containing vehicle details.   |
+
+Example response body:
+
+```json
+{
+  "data": {
+    "id": "123e4567-e89b-12d3-a456-426614174001",
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "email": "captain@example.com",
+    "status": "inactive",
+    "vehicle": {
+      "id": "123e4567-e89b-12d3-a456-426614174002",
+      "color": "Blue",
+      "plate": "XYZ123",
+      "capacity": 4,
+      "type": "car"
+    }
+  }
+}
+```
+
+In case of an error, the response will contain the following:
+
+Example error response body:
+
+```json
+{
+  "error": {
+    "message": "You are unauthorized"
+  }
+}
+```
+
+---
+
+### 8. **Logout Captain**
+
+#### **GET** `/api/v1/captain/logout`
+
+This endpoint is used to log out the authenticated captain by invalidating their token.
+
+#### **Headers**
+
+| Header          | Type   | Description                      |
+| --------------- | ------ | -------------------------------- |
+| `Authorization` | string | Bearer token for authentication. |
+
+#### **Response**
+
+The response will contain the following fields:
+
+| Field  | Type   | Description        |
+| ------ | ------ | ------------------ |
+| `data` | string | A success message. |
+
+Example response body:
+
+```json
+{
+  "data": "Logged out successfully"
+}
+```
+
+In case of an error, the response will contain the following:
+
+Example error response body:
+
+```json
+{
+  "error": {
+    "message": "You are not unauthorized"
+  }
+}
+```
